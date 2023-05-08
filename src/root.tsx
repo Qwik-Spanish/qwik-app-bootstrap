@@ -1,16 +1,23 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, useVisibleTask$ } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
 
-import './global.css';
+import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap'; // <== Esto es lo que debemos de añadir, pero aquí da error!
 
 export default component$(() => {
   /**
-   * The root of a QwikCity site always start with the <QwikCityProvider> component,
-   * immediately followed by the document's <head> and <body>.
-   *
-   * Dont remove the `<head>` and `<body>` elements.
+   * Aquí añadimos la función que pertenece al ciclo de vida para decir
+   * que el navegador y sus elementos están disponibles
    */
+
+  useVisibleTask$(async () => {
+    // Hasta que no esté el navegador no intentará cargarlo
+    await import('bootstrap');
+
+    // En este punto, como document está listo, podemos trabajar con el DOM
+    // por ejemplo entre otras cosas que ya sería en el cliente 
+  })
 
   return (
     <QwikCityProvider>
